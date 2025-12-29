@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pedido #{{ pedido.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <header>
+            <h1>✏️ Editar Pedido #{{ pedido.id }}</h1>
+            <button class="theme-btn" id="themeToggle">🌙</button>
+        </header>
+
+        <!-- Formulário de Edição -->
+        <form class="card" method="POST">
+            <h2>Editar Informações</h2>
+
+            <input type="text" name="cliente" value="{{ pedido.cliente }}" required>
+            <input type="number" name="quantidade" value="{{ pedido.quantidade }}" min="1" required>
+            <input type="date" name="data" value="{{ pedido.data }}" required>
+
+            <!-- Status do pedido -->
+            <div class="form-group">
+                <label>Status do Pedido:</label>
+                <select name="status" class="status-select">
+                    <option value="pendente" {% if pedido.status=='pendente' %}selected{% endif %}>
+                        ⏳ Pendente
+                    </option>
+                    <option value="confirmado" {% if pedido.status=='confirmado' %}selected{% endif %}>
+                        ✅ Confirmado
+                    </option>
+                    <option value="entregue" {% if pedido.status=='entregue' %}selected{% endif %}>
+                        🚚 Entregue
+                    </option>
+                </select>
+            </div>
+
+            <!-- Status de pagamento SIMPLES -->
+            <div class="form-group">
+                <label>Status de Pagamento:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="pago" name="pago" {% if pedido.pago==1 %}checked{% endif %}>
+                    <label for="pago">✅ Pago</label>
+                </div>
+                <small>Deixe desmarcado para "Não Pago"</small>
+            </div>
+
+            <div class="form-actions">
+                <a href="/" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-save">Salvar Alterações</button>
+            </div>
+        </form>
+
+        <!-- Rodapé -->
+        <footer>
+            <p>Desenvolvido por Luiz Augusto • 2025</p>
+        </footer>
+    </div>
+
+    <!-- Dark Mode Script -->
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            toggleBtn.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+    </script>
+</body>
+
+</html>

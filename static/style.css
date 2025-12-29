@@ -1,0 +1,527 @@
+/* Reset e variáveis */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary: #3498db;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --gray: #6c757d;
+}
+
+body {
+    background: #f5f7fa;
+    color: #333;
+    padding: 20px;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background: #1a1a2e;
+    color: #f8f9fa;
+}
+
+/* Container principal */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Cabeçalho */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary);
+}
+
+header h1 {
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+.theme-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.theme-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .theme-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Estatísticas */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.dark-mode .stat-card {
+    background: #2d3047;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-label {
+    display: block;
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* DESTAQUE DOS NÚMEROS */
+.highlight {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Cor específica para frangos */
+.frangos {
+    color: #e74c3c !important;
+    font-size: 2.4rem !important;
+}
+
+/* REMOVIDO: Card de pagamento pendente */
+
+/* Cards */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.dark-mode .card {
+    background: #2d3047;
+}
+
+.card h2 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.dark-mode .card h2 {
+    border-bottom-color: #444;
+}
+
+/* Formulários */
+input,
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+.dark-mode input,
+.dark-mode select {
+    background: #3a3e5a;
+    color: white;
+    border-color: #555;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Grupos do formulário */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.dark-mode .form-group label {
+    color: #f8f9fa;
+}
+
+/* Estilo para checkbox */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    transform: scale(1.3);
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* DESTAQUE DOS SELECTS DE STATUS */
+.status-select option.status-pendente {
+    color: var(--warning);
+    font-weight: bold;
+    background: rgba(243, 156, 18, 0.1);
+}
+
+.status-select option.status-confirmado {
+    color: var(--success);
+    font-weight: bold;
+    background: rgba(39, 174, 96, 0.1);
+}
+
+.status-select option.status-entregue {
+    color: var(--info);
+    font-weight: bold;
+    background: rgba(23, 162, 184, 0.1);
+}
+
+/* REMOVIDO: DESTAQUE DOS SELECTS DE PAGAMENTO (agora é checkbox) */
+
+/* Lista de pedidos */
+.pedido-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    transition: all 0.3s;
+    border-left: 5px solid;
+}
+
+.dark-mode .pedido-item {
+    background: #3a3e5a;
+}
+
+.pedido-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Informações do pedido */
+.pedido-info {
+    flex: 1;
+}
+
+/* Cliente com badge de pagamento */
+.cliente-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.cliente-info strong {
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.dark-mode .cliente-info strong {
+    color: #f8f9fa;
+}
+
+/* Badges de pagamento SIMPLES */
+.badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge.pago {
+    background: rgba(39, 174, 96, 0.2);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+.badge.nao-pago {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+/* REMOVIDO: .badge.parcial e .badge.pendente */
+
+/* Quantidade */
+.quantidade-info {
+    margin-bottom: 8px;
+}
+
+.frango-count {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 5px 10px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+/* DESTAQUE DA DATA */
+.data-info {
+    margin-bottom: 8px;
+}
+
+.data-highlight {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(52, 152, 219, 0.1);
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* DESTAQUE DOS STATUS */
+.status-info {
+    margin-top: 10px;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-badge.pendente {
+    background: rgba(243, 156, 18, 0.2);
+    color: var(--warning);
+    border: 1px solid var(--warning);
+}
+
+.status-badge.confirmado {
+    background: rgba(39, 174, 96, 0.2);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+.status-badge.entregue {
+    background: rgba(23, 162, 184, 0.2);
+    color: var(--info);
+    border: 1px solid var(--info);
+}
+
+/* Cores dos status no border-left */
+.status-pendente {
+    border-left-color: var(--warning) !important;
+}
+
+.status-confirmado {
+    border-left-color: var(--success) !important;
+}
+
+.status-entregue {
+    border-left-color: var(--info) !important;
+}
+
+/* REMOVIDO: Cores dos pagamentos no background (agora é só badge) */
+
+/* Botões de ação */
+.pedido-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-pagar,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-save {
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+}
+
+.btn-pagar {
+    background: #27ae60;
+    color: white;
+    font-size: 1rem;
+}
+
+.btn-pagar:hover {
+    background: #219653;
+    transform: scale(1.05);
+}
+
+.btn-edit {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-delete {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-cancel {
+    background: var(--gray);
+    color: white;
+    flex: 1;
+}
+
+.btn-save {
+    background: var(--success);
+    color: white;
+    flex: 2;
+}
+
+.btn-pagar:hover,
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-cancel:hover,
+.btn-save:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Ações do formulário */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Mensagem vazia */
+.empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 30px;
+    font-style: italic;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.dark-mode footer {
+    border-top-color: #444;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pedido-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pedido-actions {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .btn-pagar,
+    .btn-edit,
+    .btn-delete {
+        flex: 1;
+        text-align: center;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .highlight {
+        font-size: 1.8rem;
+    }
+
+    .frangos {
+        font-size: 2rem !important;
+    }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avícola Paraíso - Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <header>
+            <h1>🐔 Avícola Paraíso</h1>
+            <button class="theme-btn" id="themeToggle">🌙</button>
+        </header>
+
+        <!-- Estatísticas -->
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-label">Total de Pedidos</span>
+                <span class="stat-number highlight">{{ total }}</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Pedidos Hoje</span>
+                <span class="stat-number highlight">{{ hoje }}</span>
+            </div>
+
+            <!-- Total de frangos -->
+            <div class="stat-card">
+                <span class="stat-label">Total de Frangos</span>
+                <span class="stat-number highlight frangos">{{ total_frangos }}</span>
+            </div>
+
+            <!-- Frangos hoje -->
+            <div class="stat-card">
+                <span class="stat-label">Frangos Hoje</span>
+                <span class="stat-number highlight">{{ frangos_hoje }}</span>
+            </div>
+        </div>
+
+        <!-- Formulário -->
+        <form class="card" method="POST" action="/add">
+            <h2>Novo Pedido</h2>
+
+            <input type="text" name="cliente" placeholder="Nome do cliente" required>
+            <input type="number" name="quantidade" placeholder="Quantidade" min="1" required>
+            <input type="date" name="data" required>
+
+            <!-- Status do pedido -->
+            <div class="form-group">
+                <label>Status do Pedido:</label>
+                <select name="status" class="status-select">
+                    <option value="pendente" class="status-pendente">⏳ Pendente</option>
+                    <option value="confirmado" class="status-confirmado">✅ Confirmado</option>
+                    <option value="entregue" class="status-entregue">🚚 Entregue</option>
+                </select>
+            </div>
+
+            <!-- Status de pagamento SIMPLES -->
+            <div class="form-group">
+                <label>Pagamento:</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="pago" name="pago">
+                    <label for="pago">✅ Pago</label>
+                </div>
+                <small>Deixe desmarcado para "Não Pago"</small>
+            </div>
+
+            <button type="submit">Adicionar Pedido</button>
+        </form>
+
+        <!-- Lista de Pedidos -->
+        <div class="card">
+            <h2>Pedidos Recentes</h2>
+
+            {% for pedido in pedidos %}
+            <div class="pedido-item status-{{ pedido.status }}">
+
+                <div class="pedido-info">
+                    <!-- Cliente -->
+                    <div class="cliente-info">
+                        <strong>#{{ pedido.id }} - {{ pedido.cliente }}</strong>
+                        <!-- Etiqueta simples de pagamento -->
+                        {% if pedido.pago == 1 %}
+                        <span class="badge pago">✅ PAGO</span>
+                        {% else %}
+                        <span class="badge nao-pago">❌ NÃO PAGO</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Quantidade -->
+                    <div class="quantidade-info">
+                        <span class="frango-count">{{ pedido.quantidade }} frangos</span>
+                    </div>
+
+                    <!-- Data -->
+                    <div class="data-info">
+                        <span class="data-highlight">📅 {{ pedido.data }}</span>
+                    </div>
+
+                    <!-- Status do pedido -->
+                    <div class="status-info">
+                        {% if pedido.status == 'pendente' %}
+                        <span class="status-badge pendente">⏳ Pendente</span>
+                        {% elif pedido.status == 'confirmado' %}
+                        <span class="status-badge confirmado">✅ Confirmado</span>
+                        {% else %}
+                        <span class="status-badge entregue">🚚 Entregue</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="pedido-actions">
+                    <!-- Botão para alternar pagamento -->
+                    <a href="/toggle_pago/{{ pedido.id }}" class="btn-pagar" title="Alternar status de pagamento">
+                        {% if pedido.pago == 1 %}
+                        ❌ Marcar Não Pago
+                        {% else %}
+                        ✅ Marcar Pago
+                        {% endif %}
+                    </a>
+
+                    <a href="/edit/{{ pedido.id }}" class="btn-edit">✏️ Editar</a>
+                    <a href="/delete/{{ pedido.id }}" onclick="return confirm('Apagar este pedido?')"
+                        class="btn-delete">🗑️ Excluir</a>
+                </div>
+            </div>
+            {% else %}
+            <p class="empty">Nenhum pedido cadastrado</p>
+            {% endfor %}
+        </div>
+
+        <!-- Rodapé -->
+        <footer>
+            <p>Desenvolvido por Luiz Augusto • 2025</p>
+        </footer>
+    </div>
+
+    <!-- Dark Mode Script -->
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Verificar tema salvo
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️';
+        }
+
+        // Alternar tema
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            toggleBtn.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', isDark);
+        });
+
+        // Adicionar milhares separadores nos números grandes
+        document.querySelectorAll('.stat-number').forEach(el => {
+            const num = parseInt(el.textContent);
+            if (num >= 1000) {
+                el.textContent = num.toLocaleString('pt-BR');
+            }
+        });
+
+        // Data atual como padrão
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('input[type="date"]').value = today;
+        });
+    </script>
+</body>
+
+</html>
